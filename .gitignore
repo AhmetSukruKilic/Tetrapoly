@@ -1,0 +1,30 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# Auto-generated VS/JetBrains files
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.unityproj
+*.pidb
+*.booproj
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Unity Cache
+*.bak
+*.tmp
+
+# Crash logs
+sysinfo.txt
