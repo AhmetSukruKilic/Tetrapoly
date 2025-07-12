@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private const int height = 8;
     private const float offset = 1.1f;
     internal DistrictCell[][] districtCells;
+    
     private void Start()
     {
         districtCells = gridManager.districtCells;

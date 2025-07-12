@@ -14,6 +14,7 @@ public class Car : MonoBehaviour
     private static int carCount = 0;
     internal Vector3 initialPosition;
     internal int currentFuel = 0;
+    
     private void Start()
     {
         currentMoney = INITIALMONEY;
