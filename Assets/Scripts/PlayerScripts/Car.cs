@@ -1,15 +1,23 @@
 using System;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 
 public class Car : MonoBehaviour
-{
+{   
+    [SerializeField] private GridManager gridManager;
+    private const int INITIALMONEY = 1000;
+    internal const int FUELCAPACITY = 18;
+
+    private int currentMoney;
     private string ownerName;
     private MovementState movementState;
     private static int carCount = 0;
+    internal Vector3 initialPosition;
+    internal int currentFuel = 0;
     private void Start()
     {
+        currentMoney = INITIALMONEY;
+        initialPosition = transform.position - new Vector3(240, 0, 0); // Adjust initial position to be slightly above the ground
         movementState = MovementState.UpMove;
         ownerName = "Default Owner" + carCount++;
     }
@@ -39,5 +47,17 @@ public class Car : MonoBehaviour
         }
     }
 
-    
+    internal void ChargeCar(int rollResult)
+    {
+        if (currentFuel + rollResult <= FUELCAPACITY)
+        {
+            currentFuel += rollResult;
+        }
+        else
+        {
+            gridManager.MoveCarToRandomJailCell(this);
+            currentFuel = 0; 
+            currentMoney -= 250;
+        }
+    }
 }

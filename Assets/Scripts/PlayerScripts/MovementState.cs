@@ -1,5 +1,5 @@
 public enum MovementState
-    {
-        UpMove,
-        DownMove
-    }
+{
+    UpMove,
+    DownMove
+}

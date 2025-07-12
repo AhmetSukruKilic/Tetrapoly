@@ -34,7 +34,7 @@ public class CellInfo
         var cityGroups = new (string[] cities, Color color)[]
         {
             (new[] { "New York", "Chicago", "Philadelphia" }, new Color(0.3f, 0.3f, 0.9f)), // 3
-            (new[] { "Los Angeles", "San Diego", "San Francisco", "Houston" }, new Color(0.9f, 0.3f, 0.3f)), // 4
+            (new[] { "Los Angeles", "San Diego", "New York", "Houston" }, new Color(0.9f, 0.3f, 0.3f)), // 4
 
             (new[] { "London", "Manchester", "Birmingham", "Liverpool" }, new Color(0.1f, 0.6f, 0.1f)),
             (new[] { "Ankara", "Izmir", "Istanbul" }, new Color(0.8f, 0.5f, 0.1f)),

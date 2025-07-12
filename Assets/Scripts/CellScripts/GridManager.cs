@@ -1,13 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 
 public class GridManager : MonoBehaviour
-{   
-    private Vector3 prefabSize; 
+{
+    private Vector3 prefabSize;
     private const int width = 8;
     private const int height = 8;
-    private const float offset = 1.1f; 
+    private const float offset = 1.1f;
     internal DistrictCell[][] districtCells = new DistrictCell[height][];
+    private readonly (int, int)[] jailCells = new (int, int)[2];
     public GameObject districtPrefab;
     public Camera mainCamera;
 
@@ -15,10 +17,9 @@ public class GridManager : MonoBehaviour
     {
         prefabSize = GetPrefabBounds();
         SpawnGrid();
-        AdjustCamera();
     }
 
-   void SpawnGrid()
+    void SpawnGrid()
     {
         CellInfo[] cellInfosList = CellInfo.InitializeCellInfos();
         int index = 0;
@@ -65,25 +66,31 @@ public class GridManager : MonoBehaviour
         GameObject cellObj = Instantiate(districtPrefab, position, Quaternion.identity, transform);
         DistrictCell district = cellObj.GetComponent<DistrictCell>();
 
-        district.Init(info, position);
+        if (info.districtType == DistrictType.Jail)
+        {
+            AddJailCells(z, x);
+        }
 
         districtCells[z][x] = district;
+
+        district.Init(info, position);
+
     }
 
-
-    private void AdjustCamera()
+    private void AddJailCells(int z, int x)
     {
-        float cameraHeight = Mathf.Max(prefabSize.x, prefabSize.z) * 2.7f * (width + height) / 8f;
-        mainCamera.transform.position = new Vector3(
-            (width - 1.5f) * prefabSize.x / 2f,
-            cameraHeight,
-            (height - 1.5f) * prefabSize.z / 2f
-        );
-        mainCamera.transform.LookAt(new Vector3(
-            (width - 1.5f) * prefabSize.x / 2f,
-            0,
-            (height - 1.5f) * prefabSize.z / 2f
-        ));
+        if (jailCells[0] == (0, 0))
+        {
+            jailCells[0] = (z, x);
+        }
+        else if (jailCells[1] == (0, 0))
+        {
+            jailCells[1] = (z, x);
+        }
+        else
+        {
+            Debug.LogWarning("Jail cells already assigned.");
+        }
     }
 
     Vector3 GetPrefabBounds()
@@ -95,4 +102,30 @@ public class GridManager : MonoBehaviour
         return size;
     }
 
+    internal DistrictCell ReturnRandomJailCell()
+    {
+        if (jailCells[0] == (0, 0) && jailCells[1] == (0, 0))
+        {
+            Debug.LogWarning("No jail cells assigned.");
+            return null;
+        }
+        // Randomly select one of the two jail cells
+        int randomIndex = Random.Range(0, 2);
+        (int z, int x) = jailCells[randomIndex];
+        return districtCells[z][x];
+    }
+    
+    internal void MoveCarToRandomJailCell(Car car)
+    {
+        DistrictCell jailCell = ReturnRandomJailCell();
+        if (jailCell != null)
+        {
+            jailCell.AddCar(car);
+            car.transform.position = jailCell.transform.position + car.initialPosition;
+        }
+        else
+        {
+            Debug.LogWarning("No jail cell available to move the car to.");
+        }
+    }
 }

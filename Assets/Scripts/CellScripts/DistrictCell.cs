@@ -88,4 +88,35 @@ public class DistrictCell : MonoBehaviour
         UpdateCityLabels();
         blockRenderer.material.color = ownerColor;
     }
+
+    internal void AddCar(Car car)
+    {
+        if (carCount < MaxCars)
+        {
+            cars[carCount++] = car;
+        }
+        else
+        {
+            Debug.LogWarning("Max number of cars reached for this district.");
+        }
+    }
+
+    internal void RemoveCar(Car car)
+    {
+        for (int i = 0; i < carCount; i++)
+        {
+            if (cars[i] == car)
+            {
+                cars[i] = null;
+                carCount--;
+                // Shift remaining cars
+                for (int j = i; j < carCount; j++)
+                {
+                    cars[j] = cars[j + 1];
+                }
+                cars[carCount] = null; // Clear last element
+                break;
+            }
+        }
+    }
 }
