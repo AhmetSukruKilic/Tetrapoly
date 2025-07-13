@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    [SerializeField]private MovementArrowManager movementArrowManager;
+
     private Vector3 prefabSize;
     private const int width = 8;
     private const int height = 8;
@@ -73,7 +75,7 @@ public class GridManager : MonoBehaviour
 
         districtCells[z][x] = district;
 
-        district.Init(info, position);
+        district.Init(info, position, (z, x));
 
     }
 
@@ -102,30 +104,48 @@ public class GridManager : MonoBehaviour
         return size;
     }
 
-    internal DistrictCell ReturnRandomJailCell()
+    private (int, int) ReturnRandomJailCellCoordinates()
     {
         if (jailCells[0] == (0, 0) && jailCells[1] == (0, 0))
         {
             Debug.LogWarning("No jail cells assigned.");
-            return null;
+            return (0, 0);
         }
         // Randomly select one of the two jail cells
         int randomIndex = Random.Range(0, 2);
-        (int z, int x) = jailCells[randomIndex];
-        return districtCells[z][x];
+        return jailCells[randomIndex];
     }
-    
+
     internal void MoveCarToRandomJailCell(Car car)
     {
-        DistrictCell jailCell = ReturnRandomJailCell();
-        if (jailCell != null)
+        (int, int) jailCell = ReturnRandomJailCellCoordinates();
+        MoveCarToSpesificCell(car, jailCell.Item1, jailCell.Item2);
+    }
+    
+    internal void MoveCarToSpesificCell(Car car, int z, int x)
+    {
+        if (x < 0 || x >= width || z < 0 || z >= height)
         {
-            jailCell.AddCar(car);
-            car.transform.position = jailCell.transform.position + car.initialPosition;
+            Debug.LogError("Invalid cell coordinates.");
+            return;
         }
-        else
-        {
-            Debug.LogWarning("No jail cell available to move the car to.");
-        }
+
+        var oldCell = car.currentCell;
+        districtCells[oldCell.Item1][oldCell.Item2].RemoveCar(car);
+        var newCell = districtCells[z][x];
+
+        newCell.AddCar(car);
+        ChangeCarPosition(car, newCell);
+
+        movementArrowManager.SetArrowVisibility();
+        
+        Debug.Log($"Car {car.GetOwnerName()} moved to cell ({z}, {x})");
+    }
+
+    private void ChangeCarPosition(Car car, DistrictCell districtCell)
+    {
+        if (car == null || districtCell == null) return;
+
+        car.transform.position = districtCell.transform.position + car.initialPosition;
     }
 }

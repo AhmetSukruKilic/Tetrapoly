@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 
 public class DistrictCell : MonoBehaviour
@@ -10,19 +11,22 @@ public class DistrictCell : MonoBehaviour
     [SerializeField] private Renderer blockRenderer;
 
     private DistrictType districtType;
-    private Vector3 position;
+    private Vector3 vectorPosition;
+    private (int, int) gridPosition;
     private int areaId;
     private const int MaxCars = 4;
-    private Car[] cars = new Car[MaxCars];
+    private readonly Car[] cars = new Car[MaxCars];
     private int carCount = 0;
     private string districtName;
     private int price;
     private Car owner;
     private static int idCount = 0;
     private static System.Collections.Generic.Dictionary<Color, int> colorToId = new();
-    public void Init(CellInfo info, Vector3 position = default)
+    public void Init(CellInfo info, Vector3 vectorPosition = default, (int, int) gridPosition = default)
     {
-        this.position = position;
+        this.gridPosition = gridPosition;
+        this.vectorPosition = vectorPosition;
+
         this.districtName = info.name;
         this.price = info.price;
         this.owner = info.owner;
@@ -49,7 +53,6 @@ public class DistrictCell : MonoBehaviour
         {
             UpdateCityLabels();
         }
-
     }
 
     private void AssignIdToColor(Color color)
@@ -94,12 +97,18 @@ public class DistrictCell : MonoBehaviour
         if (carCount < MaxCars)
         {
             cars[carCount++] = car;
+            car.currentCell = gridPosition;
+            
+            if (districtType == DistrictType.Base)
+            {
+                car.ReverseMovementState();
+            }
         }
         else
         {
             Debug.LogWarning("Max number of cars reached for this district.");
         }
-    }
+    }  
 
     internal void RemoveCar(Car car)
     {

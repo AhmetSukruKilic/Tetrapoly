@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 730556942909826049}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 28, z: 53}
-  m_LocalScale: {x: 1399.9999, y: 1, z: 133.59308}
+  m_LocalPosition: {x: 0, y: 28, z: 66}
+  m_LocalScale: {x: 1400, y: 1, z: 133.59308}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3994900730750941055}
@@ -136,8 +136,8 @@ Transform:
   m_GameObject: {fileID: 1146161252206975148}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -53}
-  m_LocalScale: {x: 1399.9999, y: 1, z: 133.59308}
+  m_LocalPosition: {x: 0, y: 16, z: -52}
+  m_LocalScale: {x: 1400, y: 1, z: 133.59308}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7434693587782039436}
@@ -409,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 2661518252196888355}
   serializedVersion: 2
   m_LocalRotation: {x: 0.26956737, y: 0.6537075, z: 0.6537075, w: -0.26956737}
-  m_LocalPosition: {x: 6.7749023, y: 0, z: -1038}
+  m_LocalPosition: {x: -0, y: 0, z: -1098}
   m_LocalScale: {x: 479.99997, y: 480.00003, z: 480}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -490,7 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3028848036342461201}
   m_Layer: 0
-  m_Name: ArriwLeft
+  m_Name: ArrowLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -856,7 +856,7 @@ Transform:
   m_GameObject: {fileID: 6703390316477537456}
   serializedVersion: 2
   m_LocalRotation: {x: -0.65276045, y: 0.27185264, z: 0.27185264, w: 0.65276045}
-  m_LocalPosition: {x: 7, y: 0, z: 1034}
+  m_LocalPosition: {x: -7, y: 0, z: 1116}
   m_LocalScale: {x: 479.99997, y: 480, z: 480}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1044,6 +1044,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5398880873935944764}
+  - component: {fileID: 2873044898833349295}
   m_Layer: 0
   m_Name: MovementManager
   m_TagString: Untagged
@@ -1060,7 +1061,7 @@ Transform:
   m_GameObject: {fileID: 8723074866600896080}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15265, y: 0, z: 8010}
+  m_LocalPosition: {x: 15265.002, y: -0.122241065, z: 8010}
   m_LocalScale: {x: 628.03625, y: 1, z: 628.03625}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1071,6 +1072,23 @@ Transform:
   - {fileID: 3028848036342461201}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2873044898833349295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8723074866600896080}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86cd738f844644a9c9afc77d7060595b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightArrowPrefab: {fileID: 2355688035959462609}
+  leftArrowPrefab: {fileID: 2866738069790466353}
+  topArrowPrefab: {fileID: 1366492670155042733}
+  bottomArrowPrefab: {fileID: 9179232927126790852}
+  playerCar: {fileID: 0}
 --- !u!1 &9179232927126790852
 GameObject:
   m_ObjectHideFlags: 0

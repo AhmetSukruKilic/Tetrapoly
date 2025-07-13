@@ -8,6 +8,7 @@ public class Car : MonoBehaviour
     private const int INITIALMONEY = 1000;
     internal const int FUELCAPACITY = 18;
 
+    internal (int, int) currentCell;
     private int currentMoney;
     private string ownerName;
     private MovementState movementState;
@@ -18,6 +19,7 @@ public class Car : MonoBehaviour
     private void Start()
     {
         currentMoney = INITIALMONEY;
+        currentCell = (0, 0); // Starting at cell (0, 0)
         initialPosition = transform.position - new Vector3(240, 0, 0); // Adjust initial position to be slightly above the ground
         movementState = MovementState.UpMove;
         ownerName = "Default Owner" + carCount++;
@@ -36,13 +38,13 @@ public class Car : MonoBehaviour
     {
         return movementState;
     }
-    internal void ReverseMovementState(MovementState state)
+    internal void ReverseMovementState()
     {
-        if (state == MovementState.UpMove)
+        if (movementState == MovementState.UpMove)
         {
             movementState = MovementState.DownMove;
         }
-        else if (state == MovementState.DownMove)
+        else if (movementState == MovementState.DownMove)
         {
             movementState = MovementState.UpMove;
         }

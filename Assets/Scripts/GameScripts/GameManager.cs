@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -13,13 +14,13 @@ public class GameManager : MonoBehaviour
     private const int height = 8;
     private const float offset = 1.1f;
     internal DistrictCell[][] districtCells;
-    
+
     private void Start()
     {
         districtCells = gridManager.districtCells;
         prefabSize = GetPrefabBounds();
         AdjustCamera();
-        rollTheDice.assignPlayers(cars);
+        rollTheDice.AssignPlayers(cars);
     }
 
     private void AdjustCamera()
@@ -44,5 +45,28 @@ public class GameManager : MonoBehaviour
         Vector3 size = rend.bounds.size * offset;
         Destroy(temp);
         return size;
+    }
+
+
+    internal void MoveCarWithDirectionArrows(Car playerCar, MovementDirection direction)
+    {
+        if (playerCar == null) return;
+        Debug.Log($"Moving car {playerCar.GetOwnerName()} in direction {direction}");
+
+        switch (direction)
+        {   // (z,x) coordinates
+            case MovementDirection.Up:
+                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 + 1, playerCar.currentCell.Item2);
+                break;
+            case MovementDirection.Down:
+                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 - 1, playerCar.currentCell.Item2);
+                break;
+            case MovementDirection.Left:
+                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 - 1);
+                break;
+            case MovementDirection.Right:
+                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
+                break;
+        }
     }
 }

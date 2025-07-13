@@ -20,7 +20,7 @@ public class RollTheDice : MonoBehaviour
         initialRotation2 = dicePrefab2.transform.rotation;
     }
 
-    internal void assignPlayers(Car[] players)
+    internal void AssignPlayers(Car[] players)
     {
         foreach (Car player in players)
         {
