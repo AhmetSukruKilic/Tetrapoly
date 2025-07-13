@@ -51,7 +51,14 @@ public class GameManager : MonoBehaviour
     internal void MoveCarWithDirectionArrows(Car playerCar, MovementDirection direction)
     {
         if (playerCar == null) return;
+        
         Debug.Log($"Moving car {playerCar.GetOwnerName()} in direction {direction}");
+
+        if (playerCar.currentFuel <= 0)
+        {
+            Debug.LogWarning($"Car {playerCar.GetOwnerName()} has no fuel to move.");
+            return;
+        }
 
         switch (direction)
         {   // (z,x) coordinates
@@ -68,5 +75,7 @@ public class GameManager : MonoBehaviour
                 gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
+        playerCar.currentFuel -= 1; // Decrease fuel by 1 for each move
+        rollTheDice.ReloadFuelText();
     }
 }

@@ -8,7 +8,8 @@ public class RollTheDice : MonoBehaviour
     [SerializeField] private GameObject dicePrefab1;
     [SerializeField] private GameObject dicePrefab2;
     [SerializeField] private GameObject diceButton;
-    [SerializeField] private TextMeshProUGUI diceResultText;
+    [SerializeField] private TextMeshProUGUI diceResultFuelText;
+    [SerializeField] private Car car;
 
     private Quaternion initialRotation1;
     private Quaternion initialRotation2;
@@ -18,6 +19,7 @@ public class RollTheDice : MonoBehaviour
     {
         initialRotation1 = dicePrefab1.transform.rotation;
         initialRotation2 = dicePrefab2.transform.rotation;
+        diceResultFuelText.text = "Fuel = " + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
     }
 
     internal void AssignPlayers(Car[] players)
@@ -100,8 +102,21 @@ public class RollTheDice : MonoBehaviour
         }
 
         int rollResult = rollResult1 + rollResult2; // Sum of both dice rolls
-        diceResultText.text = "You rolled " + rollResult.ToString();
+
+        if (rollResult > Car.FUELCAPACITY - car.currentFuel)
+        {
+            diceResultFuelText.text = "Fuel = " + 0.ToString() + "/" + Car.FUELCAPACITY.ToString();
+        }
+        else
+        {
+            diceResultFuelText.text = "Fuel = " + (rollResult + car.currentFuel).ToString() + "/" + Car.FUELCAPACITY.ToString();
+        }
         return rollResult;
+    }
+
+    public void ReloadFuelText()
+    {
+        diceResultFuelText.text = "Fuel = " + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
     }
     
 

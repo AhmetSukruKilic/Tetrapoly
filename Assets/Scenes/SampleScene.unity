@@ -1013,7 +1013,8 @@ MonoBehaviour:
   dicePrefab1: {fileID: 1777195605}
   dicePrefab2: {fileID: 1440733433}
   diceButton: {fileID: 2072128626}
-  diceResultText: {fileID: 2003053782}
+  diceResultFuelText: {fileID: 2003053782}
+  car: {fileID: 367325676}
 --- !u!4 &495544108
 Transform:
   m_ObjectHideFlags: 0
@@ -2577,8 +2578,8 @@ Transform:
   m_GameObject: {fileID: 1643864097}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14621, y: 0, z: 143.35}
-  m_LocalScale: {x: 2094.9236, y: 1, z: 954.3914}
+  m_LocalPosition: {x: 14561, y: 0, z: -34}
+  m_LocalScale: {x: 2997.438, y: 1, z: 1455.4186}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2003053781}
@@ -3331,9 +3332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Dice Result:
-
-'
+  m_text: Fuel= 0/Max
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
