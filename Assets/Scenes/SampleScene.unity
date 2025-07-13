@@ -2578,8 +2578,8 @@ Transform:
   m_GameObject: {fileID: 1643864097}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14561, y: 0, z: -34}
-  m_LocalScale: {x: 2997.438, y: 1, z: 1455.4186}
+  m_LocalPosition: {x: 14543, y: 0.049561, z: -149.11}
+  m_LocalScale: {x: 2494.288, y: 0.83214, z: 1211.112}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2003053781}
@@ -3302,7 +3302,7 @@ RectTransform:
   m_GameObject: {fileID: 2003053780}
   m_LocalRotation: {x: 0.8050251, y: -0, z: -0, w: 0.59324074}
   m_LocalPosition: {x: 0, y: 0, z: -0.48}
-  m_LocalScale: {x: 0.005463505, y: 0.04030196, z: 0.04030196}
+  m_LocalScale: {x: 0.005560209, y: 0.041015305, z: 0.041015305}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1643864098}
@@ -3332,7 +3332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fuel= 0/Max
+  m_text: Fuel = 0/Max
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3359,8 +3359,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 26
+  m_fontSizeBase: 26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

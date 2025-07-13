@@ -11,7 +11,7 @@ public class DistrictCell : MonoBehaviour
     [SerializeField] private Renderer blockRenderer;
 
     private DistrictType districtType;
-    private Vector3 vectorPosition;
+    internal Vector3 vectorPosition;
     private (int, int) gridPosition;
     private int areaId;
     private const int MaxCars = 4;
@@ -127,5 +127,20 @@ public class DistrictCell : MonoBehaviour
                 break;
             }
         }
+    }
+
+    internal object GetDistrictName()
+    {
+        return districtName;
+    }
+
+    internal int GetPrice()
+    {
+        return price;
+    }
+
+    internal Vector3 GetVectorPosition()
+    {
+        return vectorPosition;
     }
 }

@@ -1,9 +1,9 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Car : MonoBehaviour
-{   
+{
     [SerializeField] private GridManager gridManager;
     private const int INITIALMONEY = 1000;
     internal const int FUELCAPACITY = 18;
@@ -12,10 +12,12 @@ public class Car : MonoBehaviour
     private int currentMoney;
     private string ownerName;
     private MovementState movementState;
-    private static int carCount = 0;
+    private List<DistrictCell> boughtDistricts = new();
     internal Vector3 initialPosition;
     internal int currentFuel = 0;
-    
+
+    private static int carCount = 0;
+
     private void Start()
     {
         currentMoney = INITIALMONEY;
@@ -59,8 +61,23 @@ public class Car : MonoBehaviour
         else
         {
             gridManager.MoveCarToRandomJailCell(this);
-            currentFuel = 0; 
+            currentFuel = 0;
             currentMoney -= 250;
+        }
+    }
+    
+    internal void BuyDistrict(DistrictCell district)
+    {
+        if (currentMoney >= district.GetPrice() && currentFuel > 0)
+        {
+            currentMoney -= district.GetPrice();
+            boughtDistricts.Add(district);
+            district.AddCar(this);
+            Debug.Log($"{ownerName} bought {district.GetDistrictName()} for ${district.GetPrice()}");
+        }
+        else
+        {
+            Debug.LogWarning($"{ownerName} cannot afford {district.GetDistrictName()} or has no fuel.");
         }
     }
 }

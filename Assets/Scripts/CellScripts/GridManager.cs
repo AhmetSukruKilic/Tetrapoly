@@ -146,6 +146,6 @@ public class GridManager : MonoBehaviour
     {
         if (car == null || districtCell == null) return;
 
-        car.transform.position = districtCell.transform.position + car.initialPosition;
+        car.transform.position = districtCell.GetVectorPosition() + car.initialPosition;
     }
 }
