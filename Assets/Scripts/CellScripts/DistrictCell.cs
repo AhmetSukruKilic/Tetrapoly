@@ -101,14 +101,20 @@ public class DistrictCell : MonoBehaviour
             
             if (districtType == DistrictType.Base)
             {
-                car.ReverseMovementState();
+                CameToBase(car);
             }
         }
         else
         {
             Debug.LogWarning("Max number of cars reached for this district.");
         }
-    }  
+    }
+
+    private void CameToBase(Car car)
+    {
+        car.ReverseMovementState();
+        car.TradeFuelToMoney();
+    }
 
     internal void RemoveCar(Car car)
     {

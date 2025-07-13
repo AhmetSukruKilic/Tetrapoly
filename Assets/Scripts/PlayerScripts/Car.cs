@@ -65,7 +65,7 @@ public class Car : MonoBehaviour
             currentMoney -= 250;
         }
     }
-    
+
     internal void BuyDistrict(DistrictCell district)
     {
         if (currentMoney >= district.GetPrice() && currentFuel > 0)
@@ -78,6 +78,21 @@ public class Car : MonoBehaviour
         else
         {
             Debug.LogWarning($"{ownerName} cannot afford {district.GetDistrictName()} or has no fuel.");
+        }
+    }
+    
+    internal void TradeFuelToMoney()
+    {
+        if (currentFuel > 0)
+        {
+            int fuelToMoney = currentFuel * 50;
+            currentMoney += fuelToMoney;
+            currentFuel = 0; // 
+            Debug.Log($"{ownerName} traded {fuelToMoney} money for {currentFuel} fuel.");
+        }
+        else
+        {
+            Debug.LogWarning($"{ownerName} has no fuel to trade.");
         }
     }
 }
