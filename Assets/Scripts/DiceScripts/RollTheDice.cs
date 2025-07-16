@@ -9,8 +9,9 @@ public class RollTheDice : MonoBehaviour
     [SerializeField] private GameObject dicePrefab2;
     [SerializeField] private GameObject diceButton;
     [SerializeField] private TextMeshProUGUI rollButtonText;
-    [SerializeField] private TextMeshProUGUI diceResultFuelText;
     [SerializeField] private MovementArrowManager movementArrowManager;
+    [SerializeField] private GameManager gameManager;
+
     private Car currentPlayer;
     private bool hasRolled = false;
 
@@ -22,7 +23,6 @@ public class RollTheDice : MonoBehaviour
     {
         initialRotation1 = dicePrefab1.transform.rotation;
         initialRotation2 = dicePrefab2.transform.rotation;
-        diceResultFuelText.text = "Fuel = " + 0 + "/" + Car.FUELCAPACITY.ToString();
     }
 
     internal void AssignPlayers(Car[] players)
@@ -31,6 +31,7 @@ public class RollTheDice : MonoBehaviour
         {
             playersQueue.Enqueue(player);
         }
+        gameManager.ReloadAllTexts(playersQueue.Peek());
     }
 
     public void OnDiceButtonClicked()
@@ -42,7 +43,7 @@ public class RollTheDice : MonoBehaviour
                 currentPlayer = playersQueue.Dequeue();
 
                 int rollResult = RollDice(currentPlayer);
-                currentPlayer.ChargeCar(rollResult);
+                currentPlayer.ChargeCar(rollResult); // sor bunu text şeyini nereye yazim
                 movementArrowManager.SetPlayerCar(currentPlayer);
 
                 hasRolled = true;
@@ -55,7 +56,7 @@ public class RollTheDice : MonoBehaviour
         }
         else
         {
-            ReloadFuelText(playersQueue.Peek());
+            gameManager.ReloadAllTexts(playersQueue.Peek());
             playersQueue.Enqueue(currentPlayer);
             currentPlayer = null;
 
@@ -64,7 +65,7 @@ public class RollTheDice : MonoBehaviour
             rollButtonText.text = "Roll"; // reset button text
         }
     }
-    
+
     public int RollDice(Car car)
     {
         int rollResult1 = Random.Range(1, 7); // returns 1–6
@@ -89,7 +90,7 @@ public class RollTheDice : MonoBehaviour
                 dicePrefab1.transform.rotation = initialRotation1 * Quaternion.Euler(90, 0, 0);
                 break;
             default:
-                UnityEngine.Debug.LogError("Invalid roll.");
+                Debug.LogError("Invalid roll.");
                 break;
         }
 
@@ -122,22 +123,6 @@ public class RollTheDice : MonoBehaviour
 
         int rollResult = rollResult1 + rollResult2; // Sum of both dice rolls
 
-        if (rollResult > Car.FUELCAPACITY - car.currentFuel)
-        {
-            diceResultFuelText.text = "Fuel = " + 0.ToString() + "/" + Car.FUELCAPACITY.ToString();
-        }
-        else
-        {
-            diceResultFuelText.text = "Fuel = " + (rollResult + car.currentFuel).ToString() + "/" + Car.FUELCAPACITY.ToString();
-        }
         return rollResult;
     }
-
-    public void ReloadFuelText(Car car)
-    {
-        diceResultFuelText.text = "Fuel = " + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
-    }
-    
-
-    
 }

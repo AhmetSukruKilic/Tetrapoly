@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public class Car : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager; 
     [SerializeField] private GridManager gridManager;
     private const int INITIALMONEY = 1000;
     internal const int FUELCAPACITY = 18;
@@ -24,7 +26,7 @@ public class Car : MonoBehaviour
         currentCell = (0, 0); // Starting at cell (0, 0)
         initialPosition = transform.position - new Vector3(240, 0, 0); // Adjust initial position to be slightly above the ground
         movementState = MovementState.UpMove;
-        ownerName = "Default Owner" + carCount++;
+        ownerName = "Owner" + (++carCount);
     }
     internal string GetOwnerName()
     {
@@ -64,6 +66,7 @@ public class Car : MonoBehaviour
             currentFuel = 0;
             currentMoney -= 250;
         }
+        gameManager.ReloadFuelText(this); // ask thissss 
     }
 
     internal void BuyDistrict(DistrictCell district)
@@ -94,5 +97,10 @@ public class Car : MonoBehaviour
         {
             Debug.LogWarning($"{ownerName} has no fuel to trade.");
         }
+    }
+
+    internal int GetCurrentMoney()
+    {
+        return currentMoney;
     }
 }

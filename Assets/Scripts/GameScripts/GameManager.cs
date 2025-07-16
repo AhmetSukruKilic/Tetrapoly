@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,6 +8,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject districtPrefab;
     [SerializeField] private RollTheDice rollTheDice;
+    [SerializeField] private TextMeshProUGUI carFuelText;
+    [SerializeField] private TextMeshProUGUI carMoneyText;
+    [SerializeField] private TextMeshProUGUI carNameText;
+
     [SerializeField] private Car[] cars;
 
     private Vector3 prefabSize;
@@ -59,7 +64,7 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning($"Car {playerCar.GetOwnerName()} has no fuel to move.");
             return;
         }
-        
+
         playerCar.currentFuel -= 1; // Decrease fuel by 1 for each move
         switch (direction)
         {   // (z,x) coordinates
@@ -76,6 +81,28 @@ public class GameManager : MonoBehaviour
                 gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
-        rollTheDice.ReloadFuelText(playerCar);
+        ReloadFuelText(playerCar);
+    }
+
+    internal void ReloadAllTexts(Car car)
+    {
+        ReloadFuelText(car);
+        ReloadCarNameText(car);
+        ReloadMoney(car);
+    }
+
+    internal void ReloadMoney(Car car)
+    {
+        carMoneyText.text = "Money:" + car.GetCurrentMoney();
+    }
+
+    private void ReloadCarNameText(Car car)
+    {
+        carNameText.text = car.GetOwnerName();
+    }
+
+    internal void ReloadFuelText(Car car)
+    {
+        carFuelText.text = "Fuel:" + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
     }
 }
