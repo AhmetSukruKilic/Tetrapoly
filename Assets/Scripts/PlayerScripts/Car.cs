@@ -87,7 +87,7 @@ public class Car : MonoBehaviour
         {
             int fuelToMoney = currentFuel * 50;
             currentMoney += fuelToMoney;
-            currentFuel = 0; // 
+            currentFuel = 0; 
             Debug.Log($"{ownerName} traded {fuelToMoney} money for {currentFuel} fuel.");
         }
         else

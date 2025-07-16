@@ -25,7 +25,7 @@ public class CellInfo
         CellInfo[] cells = new CellInfo[64]; // 8x8 grid
 
         cells[0] = new CellInfo("Base", 0, noOwner, Color.white, DistrictType.Base);      // bottom-left
-        cells[13] = new CellInfo("Jail", 0, noOwner, Color.gray, DistrictType.Jail);       // bottom-right
+        cells[13] = new CellInfo("Jail", 0, noOwner, Color.gray, DistrictType.Jail);      // bottom-right
         cells[50] = new CellInfo("Jail", 0, noOwner, Color.gray, DistrictType.Jail);      // top-left
         cells[63] = new CellInfo("Base", 0, noOwner, Color.white, DistrictType.Base);     // top-right
 

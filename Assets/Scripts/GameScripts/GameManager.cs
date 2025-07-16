@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void AdjustCamera()
     {
-        float cameraHeight = Mathf.Max(prefabSize.x, prefabSize.z) * (width + height) / 8 * 3;
+        float cameraHeight = Mathf.Max(prefabSize.x, prefabSize.z) * (width + height) / 8 * 3.2f;
         mainCamera.transform.position = new Vector3(
             (width - 1.5f) * prefabSize.x / 2f,
             cameraHeight,
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     internal void MoveCarWithDirectionArrows(Car playerCar, MovementDirection direction)
     {
         if (playerCar == null) return;
-        
+
         Debug.Log($"Moving car {playerCar.GetOwnerName()} in direction {direction}");
 
         if (playerCar.currentFuel <= 0)
@@ -59,7 +59,8 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning($"Car {playerCar.GetOwnerName()} has no fuel to move.");
             return;
         }
-
+        
+        playerCar.currentFuel -= 1; // Decrease fuel by 1 for each move
         switch (direction)
         {   // (z,x) coordinates
             case MovementDirection.Up:
@@ -75,7 +76,6 @@ public class GameManager : MonoBehaviour
                 gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
-        playerCar.currentFuel -= 1; // Decrease fuel by 1 for each move
-        rollTheDice.ReloadFuelText();
+        rollTheDice.ReloadFuelText(playerCar);
     }
 }

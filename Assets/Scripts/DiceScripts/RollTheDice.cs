@@ -8,8 +8,11 @@ public class RollTheDice : MonoBehaviour
     [SerializeField] private GameObject dicePrefab1;
     [SerializeField] private GameObject dicePrefab2;
     [SerializeField] private GameObject diceButton;
+    [SerializeField] private TextMeshProUGUI rollButtonText;
     [SerializeField] private TextMeshProUGUI diceResultFuelText;
-    [SerializeField] private Car car;
+    [SerializeField] private MovementArrowManager movementArrowManager;
+    private Car currentPlayer;
+    private bool hasRolled = false;
 
     private Quaternion initialRotation1;
     private Quaternion initialRotation2;
@@ -19,7 +22,7 @@ public class RollTheDice : MonoBehaviour
     {
         initialRotation1 = dicePrefab1.transform.rotation;
         initialRotation2 = dicePrefab2.transform.rotation;
-        diceResultFuelText.text = "Fuel = " + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
+        diceResultFuelText.text = "Fuel = " + 0 + "/" + Car.FUELCAPACITY.ToString();
     }
 
     internal void AssignPlayers(Car[] players)
@@ -32,22 +35,38 @@ public class RollTheDice : MonoBehaviour
 
     public void OnDiceButtonClicked()
     {
-        if (playersQueue.Count > 0)
+        if (!hasRolled)
         {
-            Car currentPlayer = playersQueue.Dequeue();
-            int rollResult = RollDice();
-            currentPlayer.ChargeCar(rollResult);
-            playersQueue.Enqueue(currentPlayer);
+            if (playersQueue.Count > 0)
+            {
+                currentPlayer = playersQueue.Dequeue();
+
+                int rollResult = RollDice(currentPlayer);
+                currentPlayer.ChargeCar(rollResult);
+                movementArrowManager.SetPlayerCar(currentPlayer);
+
+                hasRolled = true;
+                rollButtonText.text = "Next"; // update button text
+            }
+            else
+            {
+                Debug.LogWarning("No players in the queue to roll the dice.");
+            }
         }
         else
         {
-            UnityEngine.Debug.LogWarning("No players in the queue to roll the dice.");
+            ReloadFuelText(playersQueue.Peek());
+            playersQueue.Enqueue(currentPlayer);
+            currentPlayer = null;
+
+            movementArrowManager.SetPlayerCar(null);
+            hasRolled = false;
+            rollButtonText.text = "Roll"; // reset button text
         }
     }
-
-    public int RollDice()
+    
+    public int RollDice(Car car)
     {
-
         int rollResult1 = Random.Range(1, 7); // returns 1–6
         switch (rollResult1)
         {
@@ -114,7 +133,7 @@ public class RollTheDice : MonoBehaviour
         return rollResult;
     }
 
-    public void ReloadFuelText()
+    public void ReloadFuelText(Car car)
     {
         diceResultFuelText.text = "Fuel = " + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
     }

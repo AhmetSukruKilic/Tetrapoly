@@ -7,24 +7,40 @@ public class MovementArrowManager : MonoBehaviour
     [SerializeField] private GameObject leftArrowPrefab;
     [SerializeField] private GameObject topArrowPrefab;
     [SerializeField] private GameObject bottomArrowPrefab;
-    [SerializeField] private Car playerCar;
     [SerializeField] private GameManager gameManager;
+
+    private Car playerCar;
 
     private const int width = 8;
     private const int height = 8;
-
+ 
+    // singleton pattern to ensure only one instance of MovementArrowManager exists!!!!!!!!!!
     private void Start()
     {
+        playerCar = null;
+        SetArrowVisibility();
+    }
+    
+    internal void SetPlayerCar(Car newPlayerCar)
+    {
+        playerCar = newPlayerCar;
         SetArrowVisibility();
     }
 
     internal void SetArrowVisibility()
     {
-        if (playerCar == null || gameManager == null) return;
+        if (playerCar == null || gameManager == null || playerCar.currentFuel <= 0)
+        {
+            rightArrowPrefab.SetActive(false);
+            leftArrowPrefab.SetActive(false);
+            topArrowPrefab.SetActive(false);
+            bottomArrowPrefab.SetActive(false);
+            return;
+        }
 
         rightArrowPrefab.SetActive(playerCar.GetMovementState() == MovementState.UpMove
                                  && playerCar.currentCell.Item2 < width - 1);
-        topArrowPrefab.SetActive(playerCar.GetMovementState() == MovementState.UpMove 
+        topArrowPrefab.SetActive(playerCar.GetMovementState() == MovementState.UpMove
                                  && playerCar.currentCell.Item1 < height - 1);
 
         leftArrowPrefab.SetActive(playerCar.GetMovementState() == MovementState.DownMove
