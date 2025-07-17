@@ -176,4 +176,9 @@ public class DistrictCell : MonoBehaviour
     {
         return districtType == DistrictType.City;
     }
+
+    internal void PayThePrice(Car visiter)
+    {
+        visiter.PayToPlayer(owner, price);
+    }
 }

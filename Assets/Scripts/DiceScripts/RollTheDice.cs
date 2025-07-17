@@ -59,9 +59,11 @@ public class RollTheDice : MonoBehaviour
         }
         else
         {
+            currentPlayer.cityBought = false;
             gameManager.UpdateTextsAndBuyButtonVisibility(playersQueue.Peek());
             playersQueue.Enqueue(currentPlayer);
             currentPlayer = null;
+
 
             movementArrowManager.SetPlayerCar(null);
             hasRolled = false;

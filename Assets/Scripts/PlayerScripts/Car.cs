@@ -17,6 +17,7 @@ public class Car : MonoBehaviour
     private List<DistrictCell> boughtDistricts = new();
     internal Vector3 initialPosition;
     internal int currentFuel = 0;
+    internal bool cityBought = false;
 
     private static int carCount = 0;
 
@@ -77,16 +78,17 @@ public class Car : MonoBehaviour
             return;
         }
 
-        if (currentMoney >= district.GetPrice() && currentFuel > 0)
+        if (currentMoney >= district.GetPrice())
         {
             currentMoney -= district.GetPrice();
             boughtDistricts.Add(district);
             district.CityBought(this);
+            cityBought = true;
             Debug.Log($"{ownerName} bought {district.GetDistrictName()} for ${district.GetPrice()}");
         }
         else
         {
-            Debug.LogWarning($"{ownerName} cannot afford {district.GetDistrictName()} or has no fuel.");
+            Debug.LogWarning($"{ownerName} cannot afford {district.GetDistrictName()}.");
         }
     }
     
@@ -108,5 +110,17 @@ public class Car : MonoBehaviour
     internal int GetCurrentMoney()
     {
         return currentMoney;
+    }
+
+    internal void PayToPlayer(Car owner, int price)
+    {
+        if (currentMoney < price)
+        {
+            Debug.Log("end the game here");
+            return;
+        }
+
+        currentMoney -= price;
+        owner.currentMoney += price;
     }
 }

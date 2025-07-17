@@ -137,10 +137,13 @@ public class GridManager : MonoBehaviour
         newCell.AddCar(car);
         ChangeCarPosition(car, newCell);
 
-        movementArrowManager.SetArrowVisibility();
-        
+        if (newCell.HasOwner())
+            newCell.PayThePrice(car);
+                  
         Debug.Log($"Car {car.GetOwnerName()} moved to cell ({z}, {x})");
     }
+
+    
 
     private void ChangeCarPosition(Car car, DistrictCell districtCell)
     {

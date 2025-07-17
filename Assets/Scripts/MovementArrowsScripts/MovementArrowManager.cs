@@ -30,7 +30,7 @@ public class MovementArrowManager : MonoBehaviour
 
     internal void SetArrowVisibility()
     {
-        if (playerCar == null || gameManager == null || playerCar.currentFuel <= 0)
+        if (playerCar == null || gameManager == null || playerCar.currentFuel <= 0 || playerCar.cityBought)
         {
             rightArrowPrefab.SetActive(false);
             leftArrowPrefab.SetActive(false);
@@ -49,6 +49,7 @@ public class MovementArrowManager : MonoBehaviour
         bottomArrowPrefab.SetActive(playerCar.GetMovementState() == MovementState.DownMove
                                  && playerCar.currentCell.Item1 > 0);
     }
+    
     void Update()
     {
         if (playerCar == null) return;

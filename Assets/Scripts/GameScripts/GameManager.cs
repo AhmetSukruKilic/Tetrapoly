@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI carMoneyText;
     [SerializeField] private TextMeshProUGUI carNameText;
     [SerializeField] private GameObject buyButton;
+    [SerializeField] private MovementArrowManager movementArrowManager;
 
     [SerializeField] private Car[] cars;
 
@@ -134,12 +135,12 @@ public class GameManager : MonoBehaviour
         {
             currentCar.BuyDistrict(currentCell);
         }
-
         UpdateTextsAndBuyButtonVisibility(currentCar);
     }
 
     internal void UpdateTextsAndBuyButtonVisibility(Car currentCar)
     {
+        movementArrowManager.SetArrowVisibility();
         ReloadAllTexts(currentCar);
         UpdateBuyButtonVisibility(currentCar);
     }
