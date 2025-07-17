@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MovementArrowManager : MonoBehaviour
@@ -50,6 +51,8 @@ public class MovementArrowManager : MonoBehaviour
     }
     void Update()
     {
+        if (playerCar == null) return;
+
         if (Input.GetMouseButtonDown(0)) // left click
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -90,6 +93,7 @@ public class MovementArrowManager : MonoBehaviour
                 }
             }
         }
+
     }
 
     

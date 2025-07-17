@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI carFuelText;
     [SerializeField] private TextMeshProUGUI carMoneyText;
     [SerializeField] private TextMeshProUGUI carNameText;
+    [SerializeField] private GameObject buyButton;
 
     [SerializeField] private Car[] cars;
 
@@ -23,9 +24,27 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         districtCells = gridManager.districtCells;
+
         prefabSize = GetPrefabBounds();
         AdjustCamera();
+
         rollTheDice.AssignPlayers(cars);
+
+        Car currentCar = rollTheDice.GetCurrentPlayer();
+        UpdateBuyButtonVisibility(currentCar);
+    }
+
+    private void UpdateBuyButtonVisibility(Car car)
+    {
+        if (car == null) buyButton.SetActive(false);
+
+        (int z, int x) = car.currentCell;
+        DistrictCell currentCell = districtCells[z][x];
+
+        if (!currentCell.IsCity() || currentCell.HasOwner())
+            buyButton.SetActive(false);
+        else
+            buyButton.SetActive(true);
     }
 
     private void AdjustCamera()
@@ -51,7 +70,6 @@ public class GameManager : MonoBehaviour
         Destroy(temp);
         return size;
     }
-
 
     internal void MoveCarWithDirectionArrows(Car playerCar, MovementDirection direction)
     {
@@ -81,7 +99,7 @@ public class GameManager : MonoBehaviour
                 gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
-        ReloadFuelText(playerCar);
+        UpdateTextsAndBuyButtonVisibility(playerCar);
     }
 
     internal void ReloadAllTexts(Car car)
@@ -105,4 +123,25 @@ public class GameManager : MonoBehaviour
     {
         carFuelText.text = "Fuel:" + car.currentFuel.ToString() + "/" + Car.FUELCAPACITY.ToString();
     }
+
+    public void BuySelectedDistrict()
+    {
+        Car currentCar = rollTheDice.GetCurrentPlayer();
+        (int z, int x) = currentCar.currentCell;
+        DistrictCell currentCell = districtCells[z][x];
+
+        if (currentCar != null && currentCell != null)
+        {
+            currentCar.BuyDistrict(currentCell);
+        }
+
+        UpdateTextsAndBuyButtonVisibility(currentCar);
+    }
+
+    internal void UpdateTextsAndBuyButtonVisibility(Car currentCar)
+    {
+        ReloadAllTexts(currentCar);
+        UpdateBuyButtonVisibility(currentCar);
+    }
+
 }

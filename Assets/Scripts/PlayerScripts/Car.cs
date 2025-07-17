@@ -66,16 +66,22 @@ public class Car : MonoBehaviour
             currentFuel = 0;
             currentMoney -= 250;
         }
-        gameManager.ReloadFuelText(this); // ask thissss 
+        //gameManager.ReloadFuelText(this); // ask thissss 
     }
 
     internal void BuyDistrict(DistrictCell district)
     {
+        if (district.HasOwner())
+        {
+            Debug.Log($"{district.GetDistrictName()} has owner.");
+            return;
+        }
+
         if (currentMoney >= district.GetPrice() && currentFuel > 0)
         {
             currentMoney -= district.GetPrice();
             boughtDistricts.Add(district);
-            district.AddCar(this);
+            district.CityBought(this);
             Debug.Log($"{ownerName} bought {district.GetDistrictName()} for ${district.GetPrice()}");
         }
         else

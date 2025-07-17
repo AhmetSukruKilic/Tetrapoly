@@ -31,6 +31,7 @@ public class RollTheDice : MonoBehaviour
         {
             playersQueue.Enqueue(player);
         }
+        currentPlayer = playersQueue.Peek();
         gameManager.ReloadAllTexts(playersQueue.Peek());
     }
 
@@ -44,7 +45,9 @@ public class RollTheDice : MonoBehaviour
 
                 int rollResult = RollDice(currentPlayer);
                 currentPlayer.ChargeCar(rollResult); // sor bunu text şeyini nereye yazim
+
                 movementArrowManager.SetPlayerCar(currentPlayer);
+                gameManager.UpdateTextsAndBuyButtonVisibility(currentPlayer);
 
                 hasRolled = true;
                 rollButtonText.text = "Next"; // update button text
@@ -56,7 +59,7 @@ public class RollTheDice : MonoBehaviour
         }
         else
         {
-            gameManager.ReloadAllTexts(playersQueue.Peek());
+            gameManager.UpdateTextsAndBuyButtonVisibility(playersQueue.Peek());
             playersQueue.Enqueue(currentPlayer);
             currentPlayer = null;
 
@@ -124,5 +127,10 @@ public class RollTheDice : MonoBehaviour
         int rollResult = rollResult1 + rollResult2; // Sum of both dice rolls
 
         return rollResult;
+    }
+
+    internal Car GetCurrentPlayer()
+    {
+        return currentPlayer;
     }
 }

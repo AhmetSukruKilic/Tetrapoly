@@ -13,6 +13,7 @@ public class DistrictCell : MonoBehaviour
     private DistrictType districtType;
     internal Vector3 vectorPosition;
     private (int, int) gridPosition;
+    private Color color;
     private int areaId;
     private const int MaxCars = 4;
     private readonly Car[] cars = new Car[MaxCars];
@@ -22,6 +23,7 @@ public class DistrictCell : MonoBehaviour
     private Car owner;
     private static int idCount = 0;
     private static System.Collections.Generic.Dictionary<Color, int> colorToId = new();
+
     public void Init(CellInfo info, Vector3 vectorPosition = default, (int, int) gridPosition = default)
     {
         this.gridPosition = gridPosition;
@@ -36,7 +38,18 @@ public class DistrictCell : MonoBehaviour
         AssignIdToColor(info.color);
 
         AssignLabels();
+    }
 
+    internal void CityBought(Car newOwner)
+    {
+        if (HasOwner())
+        {
+            Debug.LogWarning("District already has owner.");
+            return;
+        }
+
+        owner = newOwner;
+        UpdateCityLabels();
     }
 
     private void AssignLabels()
@@ -62,6 +75,7 @@ public class DistrictCell : MonoBehaviour
             id = idCount++;
             colorToId[color] = id;
         }
+        this.color = color;
         areaId = id;
     }
 
@@ -85,20 +99,13 @@ public class DistrictCell : MonoBehaviour
         ownerLabel.text = null;
     }
 
-    public void SetOwner(Car newOwner, Color ownerColor)
-    {
-        owner = newOwner;
-        UpdateCityLabels();
-        blockRenderer.material.color = ownerColor;
-    }
-
     internal void AddCar(Car car)
     {
         if (carCount < MaxCars)
         {
             cars[carCount++] = car;
             car.currentCell = gridPosition;
-            
+
             if (districtType == DistrictType.Base)
             {
                 CameToBase(car);
@@ -148,5 +155,25 @@ public class DistrictCell : MonoBehaviour
     internal Vector3 GetVectorPosition()
     {
         return vectorPosition;
+    }
+
+    internal DistrictType GetDistrictType()
+    {
+        return districtType;
+    }
+
+    internal Car GetOwner()
+    {
+        return owner;
+    }
+
+    internal bool HasOwner()
+    {
+        return owner != null;
+    }
+
+    internal bool IsCity()
+    {
+        return districtType == DistrictType.City;
     }
 }
