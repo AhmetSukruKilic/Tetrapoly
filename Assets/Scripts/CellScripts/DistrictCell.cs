@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 
 public class DistrictCell : MonoBehaviour
@@ -20,9 +21,10 @@ public class DistrictCell : MonoBehaviour
     private int carCount = 0;
     private string districtName;
     private int price;
+    private int totalBuildings = 0;
     private Car owner;
     private static int idCount = 0;
-    private static System.Collections.Generic.Dictionary<Color, int> colorToId = new();
+    private static Dictionary<Color, int> colorToId = new();
 
     public void Init(CellInfo info, Vector3 vectorPosition = default, (int, int) gridPosition = default)
     {
@@ -180,5 +182,38 @@ public class DistrictCell : MonoBehaviour
     internal void PayThePrice(Car visiter)
     {
         visiter.PayToPlayer(owner, price);
+    }
+
+    internal bool HasConqueredArea(Car owner)
+    {
+        int totalCityOfArea = colorToId[color];
+
+        int count = 0;
+        foreach (DistrictCell city in owner.GetBoughtCities())
+        {
+            if (city.color == this.color) count++;
+        }
+
+        return totalCityOfArea == count;
+    }
+
+    internal void NewBuilding(Car owner)
+    {
+        if (!HasConqueredArea(owner))
+        {
+            Debug.Log("Not conquered the area.");
+            return;
+        }
+
+        owner.BuyBuilding();
+        totalBuildings += 1;
+        price = (int)(0.3f * totalBuildings * price + price);
+
+        UpdateCityLabels();
+    }
+
+    internal bool IsMaxBuildingNumber()
+    {
+        return totalBuildings >= 4;
     }
 }

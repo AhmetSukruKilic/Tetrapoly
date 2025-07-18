@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    [SerializeField] private GameManager gameManager; 
     [SerializeField] private GridManager gridManager;
     private const int INITIALMONEY = 1000;
     internal const int FUELCAPACITY = 18;
@@ -67,7 +66,7 @@ public class Car : MonoBehaviour
             currentFuel = 0;
             currentMoney -= 250;
         }
-        //gameManager.ReloadFuelText(this); // ask thissss 
+        
     }
 
     internal void BuyDistrict(DistrictCell district)
@@ -91,14 +90,14 @@ public class Car : MonoBehaviour
             Debug.LogWarning($"{ownerName} cannot afford {district.GetDistrictName()}.");
         }
     }
-    
+
     internal void TradeFuelToMoney()
     {
         if (currentFuel > 0)
         {
             int fuelToMoney = currentFuel * 50;
             currentMoney += fuelToMoney;
-            currentFuel = 0; 
+            currentFuel = 0;
             Debug.Log($"{ownerName} traded {fuelToMoney} money for {currentFuel} fuel.");
         }
         else
@@ -122,5 +121,15 @@ public class Car : MonoBehaviour
 
         currentMoney -= price;
         owner.currentMoney += price;
+    }
+
+    internal List<DistrictCell> GetBoughtCities()
+    {
+        return boughtDistricts;
+    }
+
+    internal void BuyBuilding()
+    {
+        currentMoney -= 150;
     }
 }

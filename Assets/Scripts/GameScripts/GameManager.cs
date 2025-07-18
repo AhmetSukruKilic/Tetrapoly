@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI carMoneyText;
     [SerializeField] private TextMeshProUGUI carNameText;
     [SerializeField] private GameObject buyButton;
+    [SerializeField] private GameObject buyBuildingButton;
+
     [SerializeField] private MovementArrowManager movementArrowManager;
 
     [SerializeField] private Car[] cars;
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
 
         Car currentCar = rollTheDice.GetCurrentPlayer();
         UpdateBuyButtonVisibility(currentCar);
+
+        UpdateBuyNewBuildingButtonVisibility(currentCar);
     }
 
     private void UpdateBuyButtonVisibility(Car car)
@@ -100,7 +104,7 @@ public class GameManager : MonoBehaviour
                 gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
-        UpdateTextsAndBuyButtonVisibility(playerCar);
+        UpdateTextsAndButtonVisibility(playerCar);
     }
 
     internal void ReloadAllTexts(Car car)
@@ -135,14 +139,44 @@ public class GameManager : MonoBehaviour
         {
             currentCar.BuyDistrict(currentCell);
         }
-        UpdateTextsAndBuyButtonVisibility(currentCar);
+        UpdateTextsAndButtonVisibility(currentCar);
     }
 
-    internal void UpdateTextsAndBuyButtonVisibility(Car currentCar)
+    public void BuyBuildings()
+    {
+        Car currentCar = rollTheDice.GetCurrentPlayer();
+        (int z, int x) = currentCar.currentCell;
+        DistrictCell currentCell = districtCells[z][x];
+
+        if (currentCar != null && currentCell != null)
+        {
+            currentCell.NewBuilding(currentCar);
+        }
+        UpdateTextsAndButtonVisibility(currentCar);
+    }
+
+    internal void UpdateTextsAndButtonVisibility(Car currentCar)
     {
         movementArrowManager.SetArrowVisibility();
         ReloadAllTexts(currentCar);
         UpdateBuyButtonVisibility(currentCar);
+        UpdateBuyNewBuildingButtonVisibility(currentCar);
     }
+
+    private void UpdateBuyNewBuildingButtonVisibility(Car currentCar)
+    {
+        if (currentCar == null) buyBuildingButton.SetActive(false);
+
+        (int z, int x) = currentCar.currentCell;
+        DistrictCell currentCell = districtCells[z][x];
+
+        if (!currentCell.IsCity() || currentCar.GetCurrentMoney() < 150 || !currentCell.HasConqueredArea(currentCar))
+            buyBuildingButton.SetActive(false);
+        else
+            buyBuildingButton.SetActive(true);
+    }
+
+    
+
 
 }

@@ -3973,6 +3973,7 @@ MonoBehaviour:
   carMoneyText: {fileID: 209791775}
   carNameText: {fileID: 697612313}
   buyButton: {fileID: 1648173271}
+  movementArrowManager: {fileID: 2132213377}
   cars:
   - {fileID: 367325676}
   - {fileID: 554281142}

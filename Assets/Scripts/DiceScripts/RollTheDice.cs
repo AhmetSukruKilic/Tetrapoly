@@ -47,7 +47,7 @@ public class RollTheDice : MonoBehaviour
                 currentPlayer.ChargeCar(rollResult); // sor bunu text şeyini nereye yazim
 
                 movementArrowManager.SetPlayerCar(currentPlayer);
-                gameManager.UpdateTextsAndBuyButtonVisibility(currentPlayer);
+                gameManager.UpdateTextsAndButtonVisibility(currentPlayer);
 
                 hasRolled = true;
                 rollButtonText.text = "Next"; // update button text
@@ -60,7 +60,7 @@ public class RollTheDice : MonoBehaviour
         else
         {
             currentPlayer.cityBought = false;
-            gameManager.UpdateTextsAndBuyButtonVisibility(playersQueue.Peek());
+            gameManager.UpdateTextsAndButtonVisibility(playersQueue.Peek());
             playersQueue.Enqueue(currentPlayer);
             currentPlayer = null;
 
