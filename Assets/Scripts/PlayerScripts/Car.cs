@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private GridManager gridManager;
     private const int INITIALMONEY = 1000;
     internal const int FUELCAPACITY = 18;
@@ -65,6 +66,9 @@ public class Car : MonoBehaviour
             gridManager.MoveCarToRandomJailCell(this);
             currentFuel = 0;
             currentMoney -= 250;
+
+            if (currentMoney <= 0)
+                gameManager.EndGame();
         }
         
     }

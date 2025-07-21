@@ -135,4 +135,9 @@ public class RollTheDice : MonoBehaviour
     {
         return currentPlayer;
     }
+
+    internal Car GetWinnerCar()
+    {
+        return playersQueue.Peek(); // assuming the peek is the winner car
+    }
 }

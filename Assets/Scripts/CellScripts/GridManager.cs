@@ -6,6 +6,7 @@ public class GridManager : MonoBehaviour
 {
     [SerializeField]private MovementArrowManager movementArrowManager;
 
+    private const bool OVER = true, NOT_OVER = false;
     private Vector3 prefabSize;
     private const int width = 8;
     private const int height = 8;
@@ -122,12 +123,12 @@ public class GridManager : MonoBehaviour
         MoveCarToSpesificCell(car, jailCell.Item1, jailCell.Item2);
     }
     
-    internal void MoveCarToSpesificCell(Car car, int z, int x)
+    internal bool MoveCarToSpesificCell(Car car, int z, int x)
     {
         if (x < 0 || x >= width || z < 0 || z >= height)
         {
             Debug.LogError("Invalid cell coordinates.");
-            return;
+            return NOT_OVER;
         }
 
         var oldCell = car.currentCell;
@@ -137,10 +138,16 @@ public class GridManager : MonoBehaviour
         newCell.AddCar(car);
         ChangeCarPosition(car, newCell);
 
-        if (newCell.HasOwner())
-            newCell.PayThePrice(car);
-                  
-        Debug.Log($"Car {car.GetOwnerName()} moved to cell ({z}, {x})");
+        if (!newCell.HasOwner()) 
+            return NOT_OVER;
+
+        if (car.GetCurrentMoney() < newCell.GetPrice())
+        {
+            return OVER; //ask this should I call endgame here or with return
+        }
+
+        newCell.PayThePrice(car);
+        return NOT_OVER;
     }
 
     

@@ -1,6 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -89,21 +89,29 @@ public class GameManager : MonoBehaviour
         }
 
         playerCar.currentFuel -= 1; // Decrease fuel by 1 for each move
+
+        bool isGameOver = false;
         switch (direction)
         {   // (z,x) coordinates
             case MovementDirection.Up:
-                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 + 1, playerCar.currentCell.Item2);
+                isGameOver = gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 + 1, playerCar.currentCell.Item2);
                 break;
             case MovementDirection.Down:
-                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 - 1, playerCar.currentCell.Item2);
+                isGameOver = gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1 - 1, playerCar.currentCell.Item2);
                 break;
             case MovementDirection.Left:
-                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 - 1);
+                isGameOver = gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 - 1);
                 break;
             case MovementDirection.Right:
-                gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
+                isGameOver = gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
+
+        if (isGameOver)
+        {
+            EndGame();
+        }
+
         UpdateTextsAndButtonVisibility(playerCar);
     }
 
@@ -176,7 +184,10 @@ public class GameManager : MonoBehaviour
             buyBuildingButton.SetActive(true);
     }
 
-    
-
-
+    internal void EndGame()
+    {
+        Score.Winner = rollTheDice.GetWinnerCar().GetOwnerName();
+        SceneManager.LoadScene("EndScene"); // load end screen
+        return;
+    }
 }
