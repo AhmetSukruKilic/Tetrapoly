@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         (int z, int x) = car.currentCell;
         DistrictCell currentCell = districtCells[z][x];
 
-        if (!currentCell.IsCity() || currentCell.HasOwner())
+        if (!currentCell.IsCity() || currentCell.HasOwner() || !car.moved)
             buyButton.SetActive(false);
         else
             buyButton.SetActive(true);
@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour
                 isGameOver = gridManager.MoveCarToSpesificCell(playerCar, playerCar.currentCell.Item1, playerCar.currentCell.Item2 + 1);
                 break;
         }
+        playerCar.moved = true;
 
         if (isGameOver)
         {
@@ -156,7 +157,7 @@ public class GameManager : MonoBehaviour
         (int z, int x) = currentCar.currentCell;
         DistrictCell currentCell = districtCells[z][x];
 
-        if (currentCar != null && currentCell != null)
+        if (currentCar != null && currentCell != null || !currentCar.moved)
         {
             currentCell.NewBuilding(currentCar);
         }
@@ -178,7 +179,7 @@ public class GameManager : MonoBehaviour
         (int z, int x) = currentCar.currentCell;
         DistrictCell currentCell = districtCells[z][x];
 
-        if (!currentCell.IsCity() || currentCar.GetCurrentMoney() < 150 || !currentCell.HasConqueredArea(currentCar))
+        if (!currentCell.IsCity() || currentCar.GetCurrentMoney() < 150 || !currentCell.HasConqueredArea(currentCar) || !currentCar.moved)
             buyBuildingButton.SetActive(false);
         else
             buyBuildingButton.SetActive(true);

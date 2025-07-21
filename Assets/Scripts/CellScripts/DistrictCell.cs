@@ -23,8 +23,7 @@ public class DistrictCell : MonoBehaviour
     private int price;
     private int totalBuildings = 0;
     private Car owner;
-    private static int idCount = 0;
-    private static Dictionary<Color, int> colorToId = new();
+    private static Dictionary<Color, int> colorToCount = new();
 
     public void Init(CellInfo info, Vector3 vectorPosition = default, (int, int) gridPosition = default)
     {
@@ -37,7 +36,8 @@ public class DistrictCell : MonoBehaviour
         this.blockRenderer.material.color = info.color;
         this.districtType = info.districtType;
 
-        AssignIdToColor(info.color);
+        this.color = info.color;
+        AssignColorToCount();
 
         AssignLabels();
     }
@@ -70,15 +70,11 @@ public class DistrictCell : MonoBehaviour
         }
     }
 
-    private void AssignIdToColor(Color color)
+    private void AssignColorToCount()
     {
-        if (!colorToId.TryGetValue(color, out int id))
-        {
-            id = idCount++;
-            colorToId[color] = id;
-        }
-        this.color = color;
-        areaId = id;
+        if (!colorToCount.ContainsKey(color))
+            colorToCount[color] = 0;
+        colorToCount[color] += 1; 
     }
 
     private void UpdateBaseLabels()
@@ -186,7 +182,7 @@ public class DistrictCell : MonoBehaviour
 
     internal bool HasConqueredArea(Car owner)
     {
-        int totalCityOfArea = colorToId[color];
+        int totalCityOfArea = colorToCount[color];
 
         int count = 0;
         foreach (DistrictCell city in owner.GetBoughtCities())

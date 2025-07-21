@@ -20,6 +20,7 @@ public class Car : MonoBehaviour
     internal bool cityBought = false;
 
     private static int carCount = 0;
+    internal bool moved = false;
 
     private void Start()
     {
@@ -99,7 +100,7 @@ public class Car : MonoBehaviour
     {
         if (currentFuel > 0)
         {
-            int fuelToMoney = currentFuel * 50;
+            int fuelToMoney = currentFuel * 25;
             currentMoney += fuelToMoney;
             currentFuel = 0;
             Debug.Log($"{ownerName} traded {fuelToMoney} money for {currentFuel} fuel.");

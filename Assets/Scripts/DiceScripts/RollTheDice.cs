@@ -50,6 +50,7 @@ public class RollTheDice : MonoBehaviour
                 gameManager.UpdateTextsAndButtonVisibility(currentPlayer);
 
                 hasRolled = true;
+                currentPlayer.moved = false;
                 rollButtonText.text = "Next"; // update button text
             }
             else
@@ -60,10 +61,12 @@ public class RollTheDice : MonoBehaviour
         else
         {
             currentPlayer.cityBought = false;
+            currentPlayer.moved = false;
+
             gameManager.UpdateTextsAndButtonVisibility(playersQueue.Peek());
             playersQueue.Enqueue(currentPlayer);
-            currentPlayer = null;
 
+            currentPlayer = null;
 
             movementArrowManager.SetPlayerCar(null);
             hasRolled = false;
